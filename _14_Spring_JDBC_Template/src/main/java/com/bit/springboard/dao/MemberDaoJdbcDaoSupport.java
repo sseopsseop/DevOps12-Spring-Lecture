@@ -3,19 +3,18 @@ package com.bit.springboard.dao;
 import com.bit.springboard.dto.MemberDto;
 import com.bit.springboard.service.MemberRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 // DAO(Data Access Object): 데이터베이스에 직접 접근해서 쿼리를 실행하는 클래스
 @Repository
-public class MemberDao{
-    private JdbcTemplate jdbcTemplate;
-
+public class MemberDaoJdbcDaoSupport extends JdbcDaoSupport {
     @Autowired
-    public MemberDao(JdbcTemplate jdbcTemplate){
-        this.jdbcTemplate = jdbcTemplate;
+    public void setSuperDataSource(DataSource dataSource){
+        super.setDataSource(dataSource);
     }
     // 쿼리문 작성
     // 회원가입 쿼리문
@@ -41,7 +40,7 @@ public class MemberDao{
     public void join(MemberDto memberDto) {
         // MemberDto에 담겨있는 내용을 MEMBER 테이블에 insert
         System.out.println("MemberDao의 join 메소드 실행");
-        this.jdbcTemplate.update(JOIN, memberDto.getUsername(), memberDto.getPassword(),
+        getJdbcTemplate().update(JOIN, memberDto.getUsername(), memberDto.getPassword(),
                 memberDto.getEmail(), memberDto.getNickname(), memberDto.getTel());
         System.out.println("MemberDao의 join 메소드 실행 종료");
     }
@@ -50,8 +49,7 @@ public class MemberDao{
         System.out.println("MemberDao의 getMembers 메소드 실행");
 
         // 리턴할 MemberDto 목록
-        List<MemberDto> memeberDtoList = this.jdbcTemplate.
-                query(GET_MEMBERS, new MemberRowMapper());
+        List<MemberDto> memeberDtoList = getJdbcTemplate().query(GET_MEMBERS, new MemberRowMapper());
 
         System.out.println("MemberDao의 getMembers 메소드 실행 종료");
         return memeberDtoList;
@@ -61,7 +59,7 @@ public class MemberDao{
         System.out.println("MemberDao의 getMemberByUsername 메소드 실행");
 
         Object[] args = {username};
-        MemberDto returnMemberDto = this.jdbcTemplate.queryForObject(GET_MEMBER_BY_USERNAME,
+        MemberDto returnMemberDto = getJdbcTemplate().queryForObject(GET_MEMBER_BY_USERNAME,
                 args, new MemberRowMapper());
 
         System.out.println("MemberDao의 getMemberByUsername 메소드 실행 종료");

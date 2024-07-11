@@ -13,9 +13,9 @@ public class MemberServiceRun {
 
         MemberDto memberDto = new MemberDto();
 
-        memberDto.setUsername("bitcamp2");
+        memberDto.setUsername("bitcamp3");
         memberDto.setPassword("dkdlxl");
-        memberDto.setNickname("비트캠프2");
+        memberDto.setNickname("비트캠프3");
         memberDto.setEmail("bitcamp@bit.co.kr");
         memberDto.setTel("010-1111-1111");
 
