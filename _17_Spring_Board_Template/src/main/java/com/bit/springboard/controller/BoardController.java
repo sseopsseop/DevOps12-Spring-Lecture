@@ -11,4 +11,23 @@ public class BoardController {
     public String freeListView(){
         return "board/free-list";
     }
+
+    @GetMapping("/notice-list.do")
+    public String noticeListView(){
+        return "board/notice-list";
+    }
+
+    @GetMapping("/post.do")
+    public String postView(){
+        return "board/post";
+    }
+
+    @GetMapping("/free-detail.do")
+    public String freeDetailView(){
+        return "board/free-detail";
+    }
+    @GetMapping("/notice-detail.do")
+    public String noticeDetailView(){
+        return "board/notice-detail";
+    }
 }
