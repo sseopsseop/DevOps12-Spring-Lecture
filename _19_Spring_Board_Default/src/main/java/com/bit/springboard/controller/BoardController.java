@@ -36,9 +36,6 @@ public class BoardController {
     @GetMapping("/free-detail-count.do")
     public String freeDetailViewCount(Model model, BoardDto boardDto){
         boardService = applicationContext.getBean("freeBoardServiceImpl", BoardService.class);
-
-
-        boardDto.setCnt(boardService.getBoard(boardDto.getId()).getCnt() + 1);
         boardService.updateListViewCount(boardDto);
 
         return "redirect:/board/free-detail.do?id=" + boardDto.getId();
@@ -68,7 +65,6 @@ public class BoardController {
         boardService = applicationContext.getBean("noticeServiceImpl",
                 BoardService.class);
 
-        boardDto.setCnt(boardService.getBoard(boardDto.getId()).getCnt() + 1);
         boardService.updateListViewCount(boardDto);
         return "redirect:/board/notice-detail.do?id=" + boardDto.getId();
     }

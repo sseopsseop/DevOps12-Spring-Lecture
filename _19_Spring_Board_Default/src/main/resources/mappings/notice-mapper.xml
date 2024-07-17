@@ -64,7 +64,7 @@
     <update id="updateListviewCount" parameterType="board">
         UPDATE NOTICE
         SET
-            CNT = #{cnt}
+            CNT = CNT + 1
         WHERE ID = #{id}
     </update>
 </mapper>

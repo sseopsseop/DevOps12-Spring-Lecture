@@ -66,7 +66,7 @@
     <update id="updateListviewCount" parameterType="board">
         UPDATE FREEBOARD
             SET
-                CNT = #{cnt}
+                CNT = CNT + 1
         WHERE ID = #{id}
     </update>
 </mapper>
