@@ -33,11 +33,23 @@ public class BoardController {
         return "board/free-list";
     }
 
+    @GetMapping("/free-detail-count.do")
+    public String freeDetailViewCount(Model model, BoardDto boardDto){
+        boardService = applicationContext.getBean("freeBoardServiceImpl", BoardService.class);
+
+
+        boardDto.setCnt(boardService.getBoard(boardDto.getId()).getCnt() + 1);
+        boardService.updateListViewCount(boardDto);
+
+        return "redirect:/board/free-detail.do?id=" + boardDto.getId();
+    }
+
     @GetMapping("/free-detail.do")
     public String freeDetailView(Model model, @RequestParam("id") int id) {
 //        1. HttpServletRequest request
 //        request.getParameter("id")
         boardService = applicationContext.getBean("freeBoardServiceImpl", BoardService.class);
+
         model.addAttribute("freeBoard", boardService.getBoard(id));
         return "board/free-detail";
     }
@@ -49,6 +61,16 @@ public class BoardController {
 
         model.addAttribute("noticeBoardList", boardService.getBoardList());
         return "board/notice-list";
+    }
+
+    @GetMapping("/notice-detail-count.do")
+    public String noticeDetailViewCount(Model model, BoardDto boardDto){
+        boardService = applicationContext.getBean("noticeServiceImpl",
+                BoardService.class);
+
+        boardDto.setCnt(boardService.getBoard(boardDto.getId()).getCnt() + 1);
+        boardService.updateListViewCount(boardDto);
+        return "redirect:/board/notice-detail.do?id=" + boardDto.getId();
     }
 
     @GetMapping("/notice-detail.do")

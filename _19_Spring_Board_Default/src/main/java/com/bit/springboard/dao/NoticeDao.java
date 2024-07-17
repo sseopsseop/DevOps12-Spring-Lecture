@@ -51,4 +51,9 @@ public class NoticeDao {
 
         return mybatis.selectOne("NoticeDao.getNotice", id);
     }
+    public void updateListviewCount(BoardDto boardDto){
+        System.out.println("NoticeDao의 updateListviewCount 메소드 실행");
+        mybatis.update("NoticeDao.updateListviewCount", boardDto);
+        System.out.println("NoticeDao의 updateListviewCount 메소드 종료");
+    }
 }

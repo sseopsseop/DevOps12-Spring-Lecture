@@ -61,4 +61,10 @@
               ON N.WRITER_ID = M.ID
             WHERE N.ID = #{id}
     </select>
+    <update id="updateListviewCount" parameterType="board">
+        UPDATE NOTICE
+        SET
+            CNT = #{cnt}
+        WHERE ID = #{id}
+    </update>
 </mapper>

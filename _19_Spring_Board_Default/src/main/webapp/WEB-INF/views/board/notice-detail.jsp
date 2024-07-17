@@ -26,7 +26,11 @@
                     <input type="hidden" name="type" value="notice"/>
                     <div class="form-group">
                         <label for="title">제목</label>
-                        <input type="text" class="form-control" id="title" name="title" value="${noticeBoard.title}" required>
+                        <input type="text" class="form-control" id="title" name="title" value="${noticeBoard.title}" required
+                        <c:if test="${loginMember eq null or loginMember.id ne noticeBoard.WRITER_ID or loginMember.role ne 'ADMIN'}">
+                                readonly
+                        </c:if>
+                        >
                     </div>
                     <div class="form-group mt-3">
                         <label for="nickname">작성자</label>
@@ -34,19 +38,23 @@
                     </div>
                     <div class="form-group mt-3">
                         <label for="content">내용</label>
-                        <textarea class="form-control" id="content" name="content" rows="10" required>${noticeBoard.content}</textarea>
+                        <textarea class="form-control" id="content" name="content" rows="10" required
+                                <c:if test="${loginMember eq null or loginMember.id ne noticeBoard.WRITER_ID or loginMember.role ne 'ADMIN'}">
+                                    readonly
+                                </c:if>
+                        >${noticeBoard.content}</textarea>
                     </div>
                     <div class="form-group mt-3">
                         <label for="regdate">등록일</label>
-                        <input type="text" class="form-control" id="regdate" value="<javatime:format value="${noticeBoard.regdate}" pattern="yyyy-MM-dd"/>" required>
+                        <input type="text" class="form-control" id="regdate" value="<javatime:format value="${noticeBoard.regdate}" pattern="yyyy-MM-dd"/>" required readonly>
                     </div>
                     <div class="form-group mt-3">
                         <label for="moddate">수정일</label>
-                        <input type="text" class="form-control" id="moddate" value="<javatime:format value="${noticeBoard.moddate}" pattern="yyyy-MM-dd"/>" required>
+                        <input type="text" class="form-control" id="moddate" value="<javatime:format value="${noticeBoard.moddate}" pattern="yyyy-MM-dd"/>" required readonly>
                     </div>
                     <div class="form-group mt-3">
                         <label for="cnt">조회수</label>
-                        <input type="text" class="form-control" id="cnt" name="cnt" value="${noticeBoard.cnt}" required>
+                        <input type="text" class="form-control" id="cnt" name="cnt" value="${noticeBoard.cnt}" required readonly>
                     </div>
                     <div class="form-group mt-3">
                         <label for="uploadFiles">파일첨부</label>

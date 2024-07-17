@@ -47,4 +47,9 @@ public class FreeBoardServiceImpl implements BoardService {
     public BoardDto getBoard(int id) {
         return freeBoardDao.getBoard(id);
     }
+
+    @Override
+    public void updateListViewCount(BoardDto boardDto) {
+        freeBoardDao.updateListviewCount(boardDto);
+    }
 }

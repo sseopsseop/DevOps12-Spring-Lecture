@@ -11,6 +11,8 @@ import java.util.List;
 
 @Service
 public class NoticeServiceImpl implements BoardService {
+
+
     private NoticeDao noticeDao;
 
     @Autowired
@@ -42,5 +44,10 @@ public class NoticeServiceImpl implements BoardService {
     @Override
     public BoardDto getBoard(int id) {
         return noticeDao.getNotice(id);
+    }
+
+    @Override
+    public void updateListViewCount(BoardDto boardDto) {
+        noticeDao.updateListviewCount(boardDto);
     }
 }

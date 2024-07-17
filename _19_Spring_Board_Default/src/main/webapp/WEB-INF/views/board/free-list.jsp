@@ -59,7 +59,7 @@
                     </thead>
                     <tbody class="table-group-divider">
                         <c:forEach items="${freeBoardList}" var="freeBoard">
-                            <tr class="board-tr" onclick="location.href='/board/free-detail.do?id=${freeBoard.id}'">
+                            <tr class="board-tr" onclick="location.href='/board/free-detail-count.do?id=${freeBoard.id}'">
                                 <td>${freeBoard.id}</td>
                                 <td>${freeBoard.title}</td>
                                 <td>${freeBoard.nickname}</td>

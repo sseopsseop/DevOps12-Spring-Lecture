@@ -96,4 +96,10 @@ public class FreeBoardDao {
         System.out.println("FreeBoardDao의 getBoard 메소드 실행 종료");
         return boardDto;
     }
+
+    public void updateListviewCount(BoardDto boardDto){
+        System.out.println("FreeBoardDao의 updateListviewCount 메소드 실행");
+        mybatis.update("FreeBoardDao.updateListviewCount", boardDto);
+        System.out.println("FreeBoardDao의 updateListviewCount 메소드 종료");
+    }
 }
