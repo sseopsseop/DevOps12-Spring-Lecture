@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%--<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>--%>
+<%@ taglib prefix="javatime" uri="http://sargue.net/jsptags/time" %>
 <html>
 <head>
 
@@ -46,85 +49,26 @@
             <div class="container mt-3 mb-5 w-50">
                 <table class="table table-hover text-center">
                     <thead>
-                    <tr>
-                        <th>번호</th>
-                        <th>제목</th>
-                        <th>작성자</th>
-                        <th>등록일</th>
-                        <th>조회수</th>
-                    </tr>
+                        <tr>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>작성자</th>
+                            <th>등록일</th>
+                            <th>조회수</th>
+                        </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                    <tr class="board-tr">
-                        <td>1</td>
-                        <td>게시글1</td>
-                        <td>작성자1</td>
-                        <td>2024-06-25</td>
-                        <td>1</td>
-                    </tr>
-                    <tr class="board-tr">
-                        <td>2</td>
-                        <td>게시글2</td>
-                        <td>작성자2</td>
-                        <td>2024-06-25</td>
-                        <td>2</td>
-                    </tr>
-                    <tr class="board-tr">
-                        <td>3</td>
-                        <td>게시글3</td>
-                        <td>작성자3</td>
-                        <td>2024-06-25</td>
-                        <td>3</td>
-                    </tr>
-                    <tr class="board-tr">
-                        <td>4</td>
-                        <td>게시글4</td>
-                        <td>작성자4</td>
-                        <td>2024-06-25</td>
-                        <td>4</td>
-                    </tr>
-                    <tr class="board-tr">
-                        <td>4</td>
-                        <td>게시글4</td>
-                        <td>작성자4</td>
-                        <td>2024-06-25</td>
-                        <td>4</td>
-                    </tr>
-                    <tr class="board-tr">
-                        <td>4</td>
-                        <td>게시글4</td>
-                        <td>작성자4</td>
-                        <td>2024-06-25</td>
-                        <td>4</td>
-                    </tr>
-                    <tr class="board-tr">
-                        <td>4</td>
-                        <td>게시글4</td>
-                        <td>작성자4</td>
-                        <td>2024-06-25</td>
-                        <td>4</td>
-                    </tr>
-                    <tr class="board-tr">
-                        <td>4</td>
-                        <td>게시글4</td>
-                        <td>작성자4</td>
-                        <td>2024-06-25</td>
-                        <td>4</td>
-                    </tr>
-                    <tr class="board-tr">
-                        <td>4</td>
-                        <td>게시글4</td>
-                        <td>작성자4</td>
-                        <td>2024-06-25</td>
-                        <td>4</td>
-                    </tr>
-                    <tr class="board-tr">
-                        <td>4</td>
-                        <td>게시글4</td>
-                        <td>작성자4</td>
-                        <td>2024-06-25</td>
-                        <td>4</td>
-                    </tr>
+                        <c:forEach items="${freeBoardList}" var="freeBoard">
+                            <tr class="board-tr" onclick="location.href='/board/free-detail.do?id=${freeBoard.id}'">
+                                <td>${freeBoard.id}</td>
+                                <td>${freeBoard.title}</td>
+                                <td>${freeBoard.nickname}</td>
+                                <td>
+                                    <javatime:format value="${freeBoard.regdate}" pattern="yyyy-MM-dd"/>
+                                </td>
+                                <td>${freeBoard.cnt}</td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -154,19 +98,17 @@
                 </ul>
             </nav>
 
-            <div class="container mt-3 mb-5 w-50 d-flex justify-content-end">
-                <button type="button" class="btn btn-outline-secondary" onclick="location.href='/board/post.do'">글 등록</button>
-            </div>
+            <c:if test="${loginMember ne null}">
+                <div class="container mt-3 mb-5 w-50 d-flex justify-content-end">
+                    <button type="button" class="btn btn-outline-secondary" onclick="location.href='/board/post.do'">글 등록</button>
+                </div>
+            </c:if>
         </main>
 
         <jsp:include page="${pageContext.request.contextPath}/footer.jsp"></jsp:include>
     </div>
     <script>
-        $(() => {
-            $(".board-tr").on("click", (e) => {
-                window.location.href = "/board/free-detail.do";
-            })
-        });
+
     </script>
 </body>
 </html>

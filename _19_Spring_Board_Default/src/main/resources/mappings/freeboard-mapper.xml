@@ -12,7 +12,10 @@
         ) VALUES(
             #{title},
             #{content},
-            #{WRITER_ID}
+            (SELECT M.ID
+             FROM MEMBER M
+             WHERE M.NICKNAME = #{nickname}
+             )
         )
     </insert>
 
@@ -37,6 +40,7 @@
             FROM FREEBOARD F
             JOIN MEMBER M
               ON F.WRITER_ID = M.ID
+            ORDER BY F.ID DESC
     </select>
 
     <delete id="delete" parameterType="int">

@@ -6,6 +6,7 @@ import com.bit.springboard.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -28,6 +29,7 @@ public class FreeBoardServiceImpl implements BoardService {
 
     @Override
     public void modify(BoardDto boardDto) {
+        boardDto.setModdate(LocalDateTime.now());
         freeBoardDao.modify(boardDto);
     }
 

@@ -58,6 +58,7 @@
              , EMAIL
              , NICKNAME
              , TEL
+             , ROLE
             FROM MEMBER
             WHERE USERNAME = #{username}
               AND PASSWORD = #{password}
