@@ -10,7 +10,10 @@ public interface MemberService {
     List<MemberDto> getMembers();
 
     MemberDto getMemberByUsername(MemberDto memberDto);
+
     String usernameCheck(String username);
+
     String nicknameCheck(String nickname);
+
     MemberDto login(MemberDto memberDto);
 }

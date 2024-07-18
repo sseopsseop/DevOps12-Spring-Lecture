@@ -3,6 +3,7 @@ package com.bit.springboard.service;
 import com.bit.springboard.dto.BoardDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BoardService {
     void post(BoardDto boardDto);
@@ -11,9 +12,9 @@ public interface BoardService {
 
     void delete(int id);
 
-    List<BoardDto> getBoardList();
+    List<BoardDto> getBoardList(Map<String, String> searchMap);
 
     BoardDto getBoard(int id);
 
-    void updateListViewCount(BoardDto boardDto);
+    void updateCnt(int id);
 }

@@ -28,7 +28,7 @@
             WHERE ID = #{id}
     </update>
 
-    <select id="getNoticeList" resultType="board">
+    <select id="getNoticeList" parameterType="map" resultType="board">
         SELECT N.ID
              , N.TITLE
              , N.CONTENT
@@ -40,6 +40,14 @@
             FROM NOTICE N
             JOIN MEMBER M
               ON N.WRITER_ID = M.ID
+            WHERE 1=1
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND (
+                N.TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+                OR N.CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+                OR M.NICKNAME LIKE CONCAT('%', #{searchKeyword}, '%')
+            )
+        </if>
     </select>
 
     <delete id="delete" parameterType="int">
@@ -61,10 +69,29 @@
               ON N.WRITER_ID = M.ID
             WHERE N.ID = #{id}
     </select>
-    <update id="updateListviewCount" parameterType="board">
+
+    <update id="updateCnt" parameterType="int">
         UPDATE NOTICE
-        SET
-            CNT = CNT + 1
-        WHERE ID = #{id}
+            SET
+                CNT = CNT + 1
+            WHERE ID = #{id}
     </update>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </mapper>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class NoticeDao {
@@ -32,10 +33,10 @@ public class NoticeDao {
         System.out.println("NoticeDao의 modify 메소드 실행 종료");
     }
 
-    public List<BoardDto> getNoticeList() {
+    public List<BoardDto> getNoticeList(Map<String, String> searchMap) {
         System.out.println("NoticeDao의 getNoticeList 메소드 실행");
 
-        return mybatis.selectList("NoticeDao.getNoticeList");
+        return mybatis.selectList("NoticeDao.getNoticeList", searchMap);
     }
     
     public void delete(int id) {
@@ -51,9 +52,8 @@ public class NoticeDao {
 
         return mybatis.selectOne("NoticeDao.getNotice", id);
     }
-    public void updateListviewCount(BoardDto boardDto){
-        System.out.println("NoticeDao의 updateListviewCount 메소드 실행");
-        mybatis.update("NoticeDao.updateListviewCount", boardDto);
-        System.out.println("NoticeDao의 updateListviewCount 메소드 종료");
+
+    public void updateCnt(int id) {
+        mybatis.update("NoticeDao.updateCnt", id);
     }
 }

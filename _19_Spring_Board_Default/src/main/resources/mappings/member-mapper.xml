@@ -39,16 +39,17 @@
             FROM MEMBER
             WHERE USERNAME = #{username}
     </select>
-
+    
     <select id="usernameCheck" parameterType="string" resultType="int">
         SELECT COUNT(*)
-             FROM MEMBER
-             WHERE USERNAME = #{username}
+            FROM MEMBER
+            WHERE USERNAME = #{username}
     </select>
+
     <select id="nicknameCheck" parameterType="string" resultType="int">
         SELECT COUNT(*)
-        FROM MEMBER
-        WHERE NICKNAME = #{nickname}
+            FROM MEMBER
+            WHERE NICKNAME = #{nickname}
     </select>
 
     <select id="login" parameterType="member" resultType="member">

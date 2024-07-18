@@ -22,23 +22,23 @@
                 <h4>자유게시판</h4>
             </div>
             <div class="container mt-3 w-50">
-                <form id="search-form" action="" method="post">
+                <form id="search-form" action="/board/free-list.do" method="post">
                     <div class="row">
                         <div class="col-3">
                             <select class="form-select" name="searchCondition">
-                                <option value="all" selected>전체</option>
-                                <option value="title">제목</option>
-                                <option value="content">내용</option>
-                                <option value="writer">작성자</option>
+                                <option value="all" <c:if test="${searchMap.searchCondition == 'all' || searchMap == null}">selected</c:if>>전체</option>
+                                <option value="title" <c:if test="${searchMap.searchCondition == 'title'}">selected</c:if>>제목</option>
+                                <option value="content" <c:if test="${searchMap.searchCondition == 'content'}">selected</c:if>>내용</option>
+                                <option value="writer" <c:if test="${searchMap.searchCondition == 'writer'}">selected</c:if>>작성자</option>
                             </select>
                         </div>
                         <div class="col-9">
                             <div class="row">
                                 <div class="col-11">
-                                    <input type="text" class="form-control w-100" name="searchKeyword">
+                                    <input type="text" class="form-control w-100" name="searchKeyword" value="${searchMap.searchKeyword}">
                                 </div>
                                 <div class="col-1 d-flex align-items-center">
-                                    <i class="bi bi-search" id="searchIcon"></i>
+                                    <i class="bi bi-search" id="search-icon"></i>
                                     <button type="submit" id="btnSearch">검색</button>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                     </thead>
                     <tbody class="table-group-divider">
                         <c:forEach items="${freeBoardList}" var="freeBoard">
-                            <tr class="board-tr" onclick="location.href='/board/update-board-count.do?id=${freeBoard.id}&type=free'">
+                            <tr class="board-tr" onclick="location.href='/board/update-cnt.do?id=${freeBoard.id}&type=free'">
                                 <td>${freeBoard.id}</td>
                                 <td>${freeBoard.title}</td>
                                 <td>${freeBoard.nickname}</td>
@@ -107,5 +107,12 @@
 
         <jsp:include page="${pageContext.request.contextPath}/footer.jsp"></jsp:include>
     </div>
+    <script>
+        $(() => {
+            $("#search-icon").on("click", (e) => {
+               $("#search-form").submit();
+            });
+        });
+    </script>
 </body>
 </html>

@@ -78,7 +78,6 @@ public class MemberDto {
                 ", nickname='" + nickname + '\'' +
                 ", email='" + email + '\'' +
                 ", tel='" + tel + '\'' +
-                ", role='" + role + '\'' +
                 '}';
     }
 }

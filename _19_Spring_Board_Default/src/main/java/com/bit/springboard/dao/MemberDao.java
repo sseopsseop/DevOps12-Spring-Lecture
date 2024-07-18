@@ -42,11 +42,11 @@ public class MemberDao {
         return mybatis.selectOne("MemberDao.usernameCheck", username);
     }
 
-    public int nicknameCheck(String nickname){
+    public int nicknameCheck(String nickname) {
         return mybatis.selectOne("MemberDao.nicknameCheck", nickname);
     }
 
-    public MemberDto login(MemberDto memberDto){
+    public MemberDto login(MemberDto memberDto) {
         return mybatis.selectOne("MemberDao.login", memberDto);
     }
 }

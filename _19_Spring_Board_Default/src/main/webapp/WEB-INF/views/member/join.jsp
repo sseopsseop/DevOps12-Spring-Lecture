@@ -68,24 +68,16 @@
         $(() => {
             // 아이디 중복체크 여부
             let idCheck = false;
+            // 닉네임 중복체크 여부
             let nicknameCheck = false;
-            // 아이디 변경 시 중복체크 버튼 활성화
+            // 비밀번호 유효성 검사 여부
             let passwordCheck = false;
-            let paswordConfirm = false;
-            $("#username").change(function(){
-                idCheck = false;
-                $("#btn-id-check").attr("disabled", false);
-            });
-
-
-            // 아이디 변경 시 중복체크 버튼 활성화
-            $("#nickname").on("change", function(){
-                nicknameCheck = false;
-                $("#btn-nickname-check").attr("disabled", false);
-            });
+            // 비밀번호 일치 여부
+            let passwordConfirm = false;
 
             // ajax를 통한 아이디 중복체크
             $("#btn-id-check").on("click", (e) => {
+                console.log($("#join-form").serialize());
                 // 중복체크 버튼 클릭 시 아이디값이 비어 있으면
                 if($("#username").val() === "") {
                     alert("아이디를 입력하세요.");
@@ -97,17 +89,15 @@
                 $.ajax({
                     url: "/member/usernameCheck.do",
                     type: "post",
-                    contentType:"x-www-form-urlencoded",
+                    contentType: "x-www-form-urlencoded",
                     data: $("#join-form").serialize(),
                     success: (obj) => {
-                        // console.log(obj);
-                        // console.log(typeof obj);
 
                         // Json String을 Json Object로 변경
                         const jsonObj = JSON.parse(obj);
-                        // console.log(jsonObj);
-                        // console.log(obj.usernameCheckMsg);
-                        // console.log(jsonObj.usernameCheckMsg);
+
+                        console.log(obj);
+                        console.log(jsonObj);
 
                         if(jsonObj.usernameCheckMsg === 'usernameOk') {
                             if(confirm(`사용가능한 아이디입니다. \${\$("#username").val()}를 사용하시겠습니까?`)) {
@@ -132,89 +122,89 @@
                 });
             });
 
-            $('#btn-nickname-check').on('click', (e) =>{
-                if($("#nickname").val() === "") {
-                    alert("닉네임을 입력하세요.");
-                    $("#nickname").focus();
-                    return;
-                }
+            // 중복체크 후에 아이디 값이 변경되면 다시 중복체크 버튼을 활성화
+            $("#username").on("change", (e) => {
+                idCheck = false;
+                $("#btn-id-check").attr("disabled", false);
+            });
 
-                $.ajax({
-                    url: "/member/nicknameCheck.do",
-                    type: "post",
-                    data: $("#join-form").serialize(),
-                    success: (obj) => {
-                        // console.log(obj);
-                        // console.log(typeof obj);
+            $("#btn-nickname-check").on("click", (e) => {
+               if($("#nickname").val() === '') {
+                   alert("닉네임을 입력하세요.");
+                   $("#nickname").focus();
+                   return;
+               }
 
-                        // Json String을 Json Object로 변경
-                        const jsonObj = JSON.parse(obj);
+               $.ajax({
+                   url: "/member/nicknameCheck.do",
+                   type: "post",
+                   data: $("#join-form").serialize(),
+                   success: (obj) => {
+                       const jsonObj = JSON.parse(obj);
 
-                        if(jsonObj.nicknameCheckMsg === 'nicknameOk') {
-                            if(confirm(`사용가능한 아이디입니다. \${\$("#nickname").val()}를 사용하시겠습니까?`)) {
-                                nicknameCheck = true;
-                                $("#btn-nickname-check").attr("disabled", true);
-                            }
-                            return;
-                        }
+                       if(jsonObj.nicknameCheckMsg === "nicknameOk") {
+                           if(confirm(`사용가능한 닉네임입니다. \${\$("#nickname").val()}을 사용하시겠습니까?`)) {
+                               nicknameCheck = true;
+                               $("#btn-nickname-check").attr("disabled", true);
+                           }
+                           return;
+                       }
 
-                        alert("중복된 아이디입니다.");
-                        nicknameCheck = false;
-                        $("#nickname").focus();
-                        // if(obj === 'usernameOk') {
-                        //     alert("사용가능한 아이디입니다.");
-                        // } else {
-                        //     alert("중복된 아이디입니다.");
-                        // }
-                    },
-                    error: (err) => {
-                        console.log(err);
-                    }
-                });
+                       alert("중복된 닉네임입니다.");
+                       nicknameCheck = false;
+                   },
+                   error: (err) => {
+                       console.log(err);
+                   }
+               });
+            });
+
+            $("#nickname").on("change", (e) => {
+                nicknameCheck = false;
+                $("#btn-nickname-check").attr("disabled", false);
             });
 
             // 비밀번호 유효성 검사 메소드
-            const validatePassword = (pw) =>{
+            const validatePassword = (pw) => {
                 return /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*+=-]).{9,}$/.test(pw);
             }
 
             // 비밀번호 input의 내용이 변경되면 validatePassword 메소드로 유효성 검사 진행
-            $('#password').on('change', (e) => {
-                if(validatePassword($('#password').val())){
-                    passwordCheck = true;
-                    $('#password-check').hide();
-                }else{
-                    passwordCheck = false;
-                    $('#password-check').show();
-                }
-                if($('#password').val() === $('#password-confirm').val() && $('#password').val !== ""){
-                    paswordConfirm = true;
-                    $('#password-confirm-result').text("비밀번호가 일치합니다");
-                    $('#password-confirm-result').css("color", "green");
-                    return;
-                }
-                paswordConfirm = false
-                $('#password-confirm-result').text("비밀번호가 일치하지 않습니다");
-                $('#password-confirm-result').css("color", "red");
-                return;
+            $("#password").on("change", (e) => {
+                console.log(validatePassword($("#password").val()));
+               if(validatePassword($("#password").val())) {
+                   passwordCheck = true;
+                   $("#password-check").hide();
+               } else {
+                   passwordCheck = false;
+                   $("#password-check").show();
+               }
 
+                if($("#password").val() === $("#password-confirm").val()) {
+                    passwordConfirm = true;
+                    $("#password-confirm-result").text("비밀번호가 일치합니다.");
+                    $("#password-confirm-result").css("color", "green");
+                } else {
+                    passwordConfirm = false;
+                    $("#password-confirm-result").text("비밀번호가 일치하지 않습니다.");
+                    $("#password-confirm-result").css("color", "red");
+                }
             });
 
             // 비밀번호 확인
-            $('#password-confirm').on('change', (e) =>{
-                $('#password-confirm-result').show();
+            $("#password-confirm").on("change", (e) => {
+                $("#password-confirm-result").show();
 
-                if($('#password-confirm').val() === $('#password').val()){
-                    paswordConfirm = true;
-                    $('#password-confirm-result').text("비밀번호가 일치합니다");
-                    $('#password-confirm-result').css("color", "green");
+                if($("#password").val() === $("#password-confirm").val()) {
+                    passwordConfirm = true;
+                    $("#password-confirm-result").text("비밀번호가 일치합니다.");
+                    $("#password-confirm-result").css("color", "green");
                     return;
                 }
-                paswordConfirm = false
-                $('#password-confirm-result').text("비밀번호가 일치하지 않습니다");
-                $('#password-confirm-result').css("color", "red");
-                if($('#password-confirm').val() === "") $('#password-confirm-result').hide();
-                return;
+
+                passwordConfirm = false;
+                $("#password-confirm-result").text("비밀번호가 일치하지 않습니다.");
+                $("#password-confirm-result").css("color", "red");
             });
 
             $("#join-form").on("submit", (e) => {
@@ -245,7 +235,6 @@
             });
 
         });
-
 
 
 

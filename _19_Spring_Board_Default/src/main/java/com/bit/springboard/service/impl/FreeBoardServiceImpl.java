@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class FreeBoardServiceImpl implements BoardService {
@@ -39,8 +40,8 @@ public class FreeBoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<BoardDto> getBoardList() {
-        return freeBoardDao.getBoardList();
+    public List<BoardDto> getBoardList(Map<String, String> searchMap) {
+        return freeBoardDao.getBoardList(searchMap);
     }
 
     @Override
@@ -49,8 +50,7 @@ public class FreeBoardServiceImpl implements BoardService {
     }
 
     @Override
-    public void updateListViewCount(BoardDto boardDto) {
-        boardDto.setCnt(boardDto.getCnt() + 1);
-        freeBoardDao.updateListviewCount(boardDto);
+    public void updateCnt(int id) {
+        freeBoardDao.updateCnt(id);
     }
 }

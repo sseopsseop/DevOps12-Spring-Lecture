@@ -42,54 +42,62 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public String usernameCheck(String username) {
         int usernameCheck = memberDao.usernameCheck(username);
+
         // String 값을 그대로 리턴하는 경우는 거의 없고
         // 대부분 json 형태의 String을 리턴하여 사용한다.
 
-        // Java에서 Json 데이터 형태로 만드는 방식 1 - JsonView
-        // Java에서 Json 데이터 형태로 만드는 방식 2 - ObjectMapper
+        // Java에서 Json 데이터 형태로 만드는 방식1 - JsonView
+        // Java에서 Json 데이터 형태로 만드는 방식1 - ObjectMapper
         // ObjectMapper 객체를 이용한 json 형태의 데이터 만들기
         ObjectMapper objectMapper = new ObjectMapper();
 
-        // Json 데이터형태는 키와 밸류로 매핑되어 있는 데이터 형태이기 때문에
-        // Map을 사용해서 키와 밸류로 매핑되어 있는 데이터 형태를 만들어 준다.
+        // Json 데이터 형태는 키와 밸류로 매핑되어 있는 데이터 형태이기 때문에
+        // Map을 사용해서 키와 밸류로 매핑되어 있는 데이터 형태로 만들어준다.
         Map<String, String> jsonMap = new HashMap<>();
 
-        if(usernameCheck == 0){
+        if(usernameCheck == 0) {
             jsonMap.put("usernameCheckMsg", "usernameOk");
-        }else jsonMap.put("usernameCheckMsg", "usernameFail");
+        } else {
+            jsonMap.put("usernameCheckMsg", "usernameFail");
+        }
 
         String jsonString = "";
-        try{
-            // writerWithDefaultPrettyPrinter() :
-            // 들여쓰기랑 엔터값이 포함되어 시인성이 높은 형태로 데이터를 써주는 writer
-            jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonMap);
-        }catch(JsonProcessingException e){
-            System.out.println(e.getMessage());
+
+        try {
+            // writerWithDefaultPrettyPrinter(): 들여쓰기랑 엔터값이 포함하여 시인성이 높은 형태로 데이터를 써주는 writer
+            jsonString = objectMapper.writerWithDefaultPrettyPrinter()
+                                     .writeValueAsString(jsonMap);
+        } catch (JsonProcessingException je) {
+            System.out.println(je.getMessage());
         }
 
         return jsonString;
-//        if(usernameCheck == 0) return "username OK";
+//        if (usernameCheck == 0)
+//            return "usernameOk";
 //
-//        return "username Fail";
+//        return "usernameFail";
     }
 
     @Override
     public String nicknameCheck(String nickname) {
         int nicknameCheck = memberDao.nicknameCheck(nickname);
+
         ObjectMapper objectMapper = new ObjectMapper();
+
         Map<String, String> jsonMap = new HashMap<>();
 
-        if(nicknameCheck == 0){
+        if(nicknameCheck == 0) {
             jsonMap.put("nicknameCheckMsg", "nicknameOk");
-        }else jsonMap.put("nicknameCheckMsg", "nicknameFail");
+        } else {
+            jsonMap.put("nicknameCheckMsg", "nicknameFail");
+        }
 
         String jsonString = "";
-        try{
-            // writerWithDefaultPrettyPrinter() :
-            // 들여쓰기랑 엔터값이 포함되어 시인성이 높은 형태로 데이터를 써주는 writer
+
+        try {
             jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonMap);
-        }catch(JsonProcessingException e){
-            System.out.println(e.getMessage());
+        } catch (JsonProcessingException je) {
+            System.out.println(je.getMessage());
         }
 
         return jsonString;
@@ -98,12 +106,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberDto login(MemberDto memberDto) {
         int usernameCheck = memberDao.usernameCheck(memberDto.getUsername());
+
         if(usernameCheck == 0)
             throw new RuntimeException("idNotExist");
 
         MemberDto loginMember = memberDao.login(memberDto);
 
-        // 로그인 정보와 일치하는 패스워드가 없을 경우
         if(loginMember == null)
             throw new RuntimeException("wrongPassword");
 

@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="javatime" uri="http://sargue.net/jsptags/time" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
 
@@ -22,39 +22,33 @@
             </div>
             <div class="container mt-3 w-50">
                 <form id="modify-form" action="/board/modify.do" method="post">
-                    <input type="hidden" name="id" value="${noticeBoard.id}"/>
-                    <input type="hidden" name="type" value="notice"/>
+                    <input type="hidden" name="id" value="${notice.id}">
+                    <input type="hidden" name="type" value="notice">
                     <div class="form-group">
                         <label for="title">제목</label>
-                        <input type="text" class="form-control" id="title" name="title" value="${noticeBoard.title}" required
-                        <c:if test="${loginMember eq null or loginMember.id ne noticeBoard.WRITER_ID or loginMember.role ne 'ADMIN'}">
-                                readonly
-                        </c:if>
-                        >
+                        <input type="text" class="form-control" id="title" name="title" value="${notice.title}" required>
                     </div>
                     <div class="form-group mt-3">
-                        <label for="nickname">작성자</label>
-                        <input type="text" class="form-control" id="nickname" name="nickname" value="${noticeBoard.nickname}" readonly>
+                        <label for="writer">작성자</label>
+                        <input type="text" class="form-control" id="writer" name="writer" value="${notice.nickname}" readonly>
                     </div>
                     <div class="form-group mt-3">
                         <label for="content">내용</label>
-                        <textarea class="form-control" id="content" name="content" rows="10" required
-                                <c:if test="${loginMember eq null or loginMember.role ne 'ADMIN'}">
-                                    readonly
-                                </c:if>
-                        >${noticeBoard.content}</textarea>
+                        <textarea class="form-control" id="content" name="content" rows="10" required>${notice.content}</textarea>
                     </div>
                     <div class="form-group mt-3">
                         <label for="regdate">등록일</label>
-                        <input type="text" class="form-control" id="regdate" name="regdate" value="<javatime:format value="${noticeBoard.regdate}" pattern="yyyy-MM-dd"/>" required readonly>
+                        <input type="text" class="form-control" id="regdate" name="regdate"
+                               value="<javatime:format value="${notice.regdate}" pattern="yyyy-MM-dd"/>" required>
                     </div>
                     <div class="form-group mt-3">
                         <label for="moddate">수정일</label>
-                        <input type="text" class="form-control" id="moddate" name="moddate" value="<javatime:format value="${noticeBoard.moddate}" pattern="yyyy-MM-dd"/>" required readonly>
+                        <input type="text" class="form-control" id="moddate" name="moddate"
+                               value="<javatime:format value="${notice.moddate}" pattern="yyyy-MM-dd"/>" required>
                     </div>
                     <div class="form-group mt-3">
                         <label for="cnt">조회수</label>
-                        <input type="text" class="form-control" id="cnt" name="cnt" value="${noticeBoard.cnt}" required readonly>
+                        <input type="text" class="form-control" id="cnt" name="cnt" value="${notice.cnt}" required>
                     </div>
                     <div class="form-group mt-3">
                         <label for="uploadFiles">파일첨부</label>
@@ -70,10 +64,10 @@
                             </div>
                         </div>
                     </div>
-                    <c:if test="${loginMember ne null && loginMember.role eq 'ADMIN'}">
+                    <c:if test="${loginMember != null && loginMember.role == 'ADMIN'}">
                         <div class="container mt-3 mb-5 w-50 text-center">
                             <button type="submit" id="btn-update" class="btn btn-outline-secondary">수정</button>
-                            <button type="button" id="btn-delete" class="btn btn-outline-secondary ml-2" onclick="location.href='/board/delete.do?id=${noticeBoard.id}&type=notice'">삭제</button>
+                            <button type="button" id="btn-delete" class="btn btn-outline-secondary ml-2" onclick="location.href='/board/delete.do?id=${notice.id}&type=notice'">삭제</button>
                         </div>
                     </c:if>
                 </form>
@@ -83,12 +77,12 @@
         <jsp:include page="${pageContext.request.contextPath}/footer.jsp"></jsp:include>
     </div>
     <script>
-        $(()=>{
-            $('#modify-form').on('submit', (e)=>{
-                $('#regdate').val(`\${\$("regdate").val()}T00:00:00`);
-                $("#moddate").val(`\${\$("#regdate").val()}T00:00:00`);
-            })
-        })
+        $(() => {
+            $("#modify-form").on("submit", (e) => {
+                $("#regdate").val(`\${\$("#regdate").val()}T00:00:00`);
+                $("#moddate").val(`\${\$("#moddate").val()}T00:00:00`);
+            });
+        });
     </script>
 </body>
 </html>
