@@ -39,7 +39,7 @@
                     <div class="form-group mt-3">
                         <label for="content">내용</label>
                         <textarea class="form-control" id="content" name="content" rows="10" required
-                                <c:if test="${loginMember eq null or loginMember.id ne noticeBoard.WRITER_ID or loginMember.role ne 'ADMIN'}">
+                                <c:if test="${loginMember eq null or loginMember.role ne 'ADMIN'}">
                                     readonly
                                 </c:if>
                         >${noticeBoard.content}</textarea>
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                     </div>
-                    <c:if test="${loginMember ne null && loginMember.id eq noticeBoard.WRITER_ID && loginMember.role eq 'ADMIN'}">
+                    <c:if test="${loginMember ne null && loginMember.role eq 'ADMIN'}">
                         <div class="container mt-3 mb-5 w-50 text-center">
                             <button type="submit" id="btn-update" class="btn btn-outline-secondary">수정</button>
                             <button type="button" id="btn-delete" class="btn btn-outline-secondary ml-2" onclick="location.href='/board/delete.do?id=${noticeBoard.id}&type=notice'">삭제</button>

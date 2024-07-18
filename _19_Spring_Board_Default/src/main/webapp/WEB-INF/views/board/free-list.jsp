@@ -59,7 +59,7 @@
                     </thead>
                     <tbody class="table-group-divider">
                         <c:forEach items="${freeBoardList}" var="freeBoard">
-                            <tr class="board-tr" onclick="location.href='/board/free-detail-count.do?id=${freeBoard.id}'">
+                            <tr class="board-tr" onclick="location.href='/board/update-board-count.do?id=${freeBoard.id}&type=free'">
                                 <td>${freeBoard.id}</td>
                                 <td>${freeBoard.title}</td>
                                 <td>${freeBoard.nickname}</td>
@@ -107,8 +107,5 @@
 
         <jsp:include page="${pageContext.request.contextPath}/footer.jsp"></jsp:include>
     </div>
-    <script>
-
-    </script>
 </body>
 </html>

@@ -32,22 +32,30 @@ public class BoardController {
         model.addAttribute("freeBoardList", boardService.getBoardList());
         return "board/free-list";
     }
+    @GetMapping("/update-board-count.do")
+    public String updateBoardCount(BoardDto boardDto) {
+        if(boardDto.getType().equals("free")){
+            boardService = applicationContext.getBean("freeBoardServiceImpl", BoardService.class);
+        }else{
+            boardService = applicationContext.getBean("noticeServiceImpl", BoardService.class);
+        }
 
-    @GetMapping("/free-detail-count.do")
-    public String freeDetailViewCount(Model model, BoardDto boardDto){
-        boardService = applicationContext.getBean("freeBoardServiceImpl", BoardService.class);
         boardService.updateListViewCount(boardDto);
+        if(boardDto.getType().equals("free")){
+            return "redirect:/board/free-detail.do?id="+boardDto.getId();
+        }else{
 
-        return "redirect:/board/free-detail.do?id=" + boardDto.getId();
+            return "redirect:/board/notice-detail.do?id="+boardDto.getId();
+        }
     }
 
     @GetMapping("/free-detail.do")
-    public String freeDetailView(Model model, @RequestParam("id") int id) {
+    public String freeDetailView(Model model, BoardDto boardDto) {
 //        1. HttpServletRequest request
 //        request.getParameter("id")
         boardService = applicationContext.getBean("freeBoardServiceImpl", BoardService.class);
 
-        model.addAttribute("freeBoard", boardService.getBoard(id));
+        model.addAttribute("freeBoard", boardService.getBoard(boardDto.getId()));
         return "board/free-detail";
     }
 
@@ -60,14 +68,7 @@ public class BoardController {
         return "board/notice-list";
     }
 
-    @GetMapping("/notice-detail-count.do")
-    public String noticeDetailViewCount(Model model, BoardDto boardDto){
-        boardService = applicationContext.getBean("noticeServiceImpl",
-                BoardService.class);
 
-        boardService.updateListViewCount(boardDto);
-        return "redirect:/board/notice-detail.do?id=" + boardDto.getId();
-    }
 
     @GetMapping("/notice-detail.do")
     public String noticeDetailView(Model model, @RequestParam("id") int id) {
