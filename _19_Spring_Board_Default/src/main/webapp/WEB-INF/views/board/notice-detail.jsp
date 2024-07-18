@@ -46,11 +46,11 @@
                     </div>
                     <div class="form-group mt-3">
                         <label for="regdate">등록일</label>
-                        <input type="text" class="form-control" id="regdate" value="<javatime:format value="${noticeBoard.regdate}" pattern="yyyy-MM-dd"/>" required readonly>
+                        <input type="text" class="form-control" id="regdate" name="regdate" value="<javatime:format value="${noticeBoard.regdate}" pattern="yyyy-MM-dd"/>" required readonly>
                     </div>
                     <div class="form-group mt-3">
                         <label for="moddate">수정일</label>
-                        <input type="text" class="form-control" id="moddate" value="<javatime:format value="${noticeBoard.moddate}" pattern="yyyy-MM-dd"/>" required readonly>
+                        <input type="text" class="form-control" id="moddate" name="moddate" value="<javatime:format value="${noticeBoard.moddate}" pattern="yyyy-MM-dd"/>" required readonly>
                     </div>
                     <div class="form-group mt-3">
                         <label for="cnt">조회수</label>
@@ -82,5 +82,13 @@
 
         <jsp:include page="${pageContext.request.contextPath}/footer.jsp"></jsp:include>
     </div>
+    <script>
+        $(()=>{
+            $('#modify-form').on('submit', (e)=>{
+                $('#regdate').val(`\${\$("regdate").val()}T00:00:00`);
+                $("#moddate").val(`\${\$("#regdate").val()}T00:00:00`);
+            })
+        })
+    </script>
 </body>
 </html>

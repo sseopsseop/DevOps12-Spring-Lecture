@@ -9,6 +9,7 @@ public class BoardDto {
     private String content;
     private int WRITER_ID;
     private String nickname;
+    // "yyyy-MM-dd'T'HH-mm-ss" => 이 형태로 값이 넘어와야 한다
     private LocalDateTime regdate;
     private LocalDateTime moddate;
     private int cnt;

@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="javatime" uri="http://sargue.net/jsptags/time" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
 
@@ -22,8 +22,8 @@
             </div>
             <div class="container mt-3 w-50">
                 <form id="modify-form" action="/board/modify.do" method="post">
-                    <input type="hidden" name="id" value="${freeBoard.id}"/>
-                    <input type="hidden" name="type" value="free"/>
+                    <input type="hidden" name="id" value="${freeBoard.id}">
+                    <input type="hidden" name="type" value="free">
                     <div class="form-group">
                         <label for="title">제목</label>
                         <input type="text" class="form-control" id="title" name="title" value="${freeBoard.title}" required>
@@ -38,15 +38,17 @@
                     </div>
                     <div class="form-group mt-3">
                         <label for="regdate">등록일</label>
-                        <input type="text" class="form-control" id="regdate" value="<javatime:format value="${freeBoard.regdate}" pattern="yyyy-MM-dd"/>" readonly required>
+                        <input type="text" class="form-control" id="regdate" name="regdate"
+                               value="<javatime:format value="${freeBoard.regdate}" pattern="yyyy-MM-dd"/>" readonly required>
                     </div>
                     <div class="form-group mt-3">
                         <label for="moddate">수정일</label>
-                        <input type="text" class="form-control" id="moddate" value="<javatime:format value="${freeBoard.moddate}" pattern="yyyy-MM-dd"/>" readonly required>
+                        <input type="text" class="form-control" id="moddate" name="moddate"
+                               value="<javatime:format value="${freeBoard.moddate}" pattern="yyyy-MM-dd"/>" readonly required>
                     </div>
                     <div class="form-group mt-3">
                         <label for="cnt">조회수</label>
-                        <input type="text" class="form-control" id="cnt" name="cnt" value="${freeBoard.cnt}" required readonly>
+                        <input type="text" class="form-control" id="cnt" name="cnt" value="${freeBoard.cnt}" readonly required>
                     </div>
                     <div class="form-group mt-3">
                         <label for="uploadFiles">파일첨부</label>
@@ -62,7 +64,7 @@
                             </div>
                         </div>
                     </div>
-                    <c:if test="${loginMember ne null && loginMember.id eq freeBoard.WRITER_ID}">
+                    <c:if test="${loginMember ne null and loginMember.id eq freeBoard.WRITER_ID}">
                         <div class="container mt-3 mb-5 w-50 text-center">
                             <button type="submit" id="btn-update" class="btn btn-outline-secondary">수정</button>
                             <button type="button" id="btn-delete" class="btn btn-outline-secondary ml-2" onclick="location.href='/board/delete.do?id=${freeBoard.id}&type=free'">삭제</button>
@@ -74,5 +76,13 @@
 
         <jsp:include page="${pageContext.request.contextPath}/footer.jsp"></jsp:include>
     </div>
+    <script>
+        $(() => {
+            $("#modify-form").on("submit", (e) => {
+                $("#regdate").val(`\${\$("#regdate").val()}T00:00:00`);
+                $("#moddate").val(`\${\$("#moddate").val()}T00:00:00`);
+            });
+        });
+    </script>
 </body>
 </html>
