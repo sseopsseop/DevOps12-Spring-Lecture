@@ -100,8 +100,7 @@
                                end="${page.endPage}"
                                var="number">
                         <li class="page-item">
-                            <a class="page-link link-secondary
-                            <c:if test='${number == page.cri.pageNum}'>active</c:if>" href="${number}">${number}</a>
+                            <a class="page-link link-secondary" href="${number}">${number}</a>
                         </li>
                     </c:forEach>
 
@@ -127,11 +126,17 @@
     <script>
         $(() => {
             $("#search-icon").on("click", (e) => {
-               $("#search-form").submit();
+                $("input[name='pageNum']").val(1);
+                $("#search-form").submit();
+            });
+
+            $("input[name='searchKeyword']").on("keypress", (e) => {
+                if(e.key === 'Enter') {
+                    $("input[name='pageNum']").val(1);
+                }
             });
 
             $(".pagination a").on("click", (e) => {
-                // a 태그 기본 효과 방지
                 e.preventDefault();
 
                 // console.log($(e.target).attr("href"));

@@ -1,20 +1,16 @@
 package com.bit.springboard.controller;
 
-import com.bit.springboard.dto.BoardDto;
-import com.bit.springboard.dto.Creteria;
-import com.bit.springboard.dto.MemberDto;
-import com.bit.springboard.dto.PageDto;
+import com.bit.springboard.dto.*;
 import com.bit.springboard.service.BoardService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -29,7 +25,7 @@ public class BoardController {
     }
 
     @RequestMapping("/free-list.do")
-    public String freeListView(Model model, @RequestParam Map<String, String> searchMap, Creteria cri) {
+    public String freeListView(Model model, @RequestParam Map<String, String> searchMap, Criteria cri) {
         System.out.println(cri);
 //        System.out.println(searchMap);
         boardService = applicationContext.getBean("freeBoardServiceImpl", BoardService.class);
@@ -74,11 +70,16 @@ public class BoardController {
     }
 
     @RequestMapping("/notice-list.do")
-    public String noticeListView(Model model, @RequestParam Map<String, String> searchMap, Creteria cri) {
+    public String noticeListView(Model model, @RequestParam Map<String, String> searchMap, Criteria cri) {
         boardService = applicationContext.getBean("noticeServiceImpl", BoardService.class);
 
+        cri.setAmount(9);
         model.addAttribute("noticeList", boardService.getBoardList(searchMap, cri));
         model.addAttribute("searchMap", searchMap);
+
+        int total = boardService.getBoardTotalCnt(searchMap);
+
+        model.addAttribute("page", new NoticePageDto(cri, total));
 
         return "board/notice-list";
     }
@@ -150,6 +151,21 @@ public class BoardController {
         else
             return "redirect:/board/notice-list.do";
     }
+
+    @PostMapping("/notice-list-ajax.do")
+    @ResponseBody
+    public Map<String, Object> noticeListAjax(@RequestParam Map<String, String> searchMap, Criteria cri) {
+        System.out.println(cri.getAmount());
+//        Arrays.stream(amountArr).forEach(System.out::println);
+        boardService = applicationContext.getBean("noticeServiceImpl", BoardService.class);
+        List<BoardDto> noticeList = boardService.getBoardList(searchMap, cri);
+
+        Map<String, Object> returnMap = new HashMap<>();
+        returnMap.put("noticeList", noticeList);
+
+        return returnMap;
+    }
+
 
 
 

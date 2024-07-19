@@ -161,6 +161,13 @@
             <artifactId>java-time-jsptags</artifactId>
             <version>2.0.0</version>
         </dependency>
+        <!-- ajax에서 LocalDateTime 타입의 직렬화 해결하는 라이브러리       -->
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.17.2</version>
+        </dependency>
 
     </dependencies>
     <build>

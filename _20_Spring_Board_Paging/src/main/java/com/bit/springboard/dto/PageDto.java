@@ -10,9 +10,9 @@ public class PageDto {
     // 총 게시글의 개수
     private int total;
     // Creteria 객체
-    private Creteria cri;
+    private Criteria cri;
 
-    public PageDto(Creteria cri, int total) {
+    public PageDto(Criteria cri, int total) {
         this.cri = cri;
         this.total = total;
 
@@ -76,11 +76,11 @@ public class PageDto {
         this.total = total;
     }
 
-    public Creteria getCri() {
+    public Criteria getCri() {
         return cri;
     }
 
-    public void setCri(Creteria cri) {
+    public void setCri(Criteria cri) {
         this.cri = cri;
     }
 

@@ -41,13 +41,14 @@
             JOIN MEMBER M
               ON N.WRITER_ID = M.ID
             WHERE 1=1
-        <if test="searchKeyword != null and searchKeyword != ''">
+        <if test="search.searchKeyword != null and search.searchKeyword != ''">
             AND (
-                N.TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
-                OR N.CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
-                OR M.NICKNAME LIKE CONCAT('%', #{searchKeyword}, '%')
+                N.TITLE LIKE CONCAT('%', #{search.searchKeyword}, '%')
+                OR N.CONTENT LIKE CONCAT('%', #{search.searchKeyword}, '%')
+                OR M.NICKNAME LIKE CONCAT('%', #{search.searchKeyword}, '%')
             )
         </if>
+        LIMIT #{cri.amount} OFFSET #{cri.startNum}
     </select>
 
     <delete id="delete" parameterType="int">
@@ -77,7 +78,20 @@
             WHERE ID = #{id}
     </update>
 
-
+    <select id="getBoardTotalCnt" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+            FROM NOTICE N
+            JOIN MEMBER M
+              ON N.WRITER_ID = M.ID
+            WHERE 1=1
+            <if test="searchKeyword != null and searchKeyword != ''">
+                AND (
+                    N.TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+                    OR N.CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+                    OR M.NICKNAME LIKE CONCAT('%', #{searchKeyword}, '%')
+                )
+            </if>
+    </select>
 
 
 
