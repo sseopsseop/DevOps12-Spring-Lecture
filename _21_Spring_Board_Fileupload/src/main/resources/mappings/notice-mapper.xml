@@ -132,6 +132,42 @@
             WHERE BOARD_ID = #{id}
     </delete>
 
+    <insert id="postBoardFileOne" parameterType="boardFile">
+        INSERT INTO NOTICE_FILE(
+            BOARD_ID,
+            FILENAME,
+            FILEORIGINNAME,
+            FILEPATH,
+            FILETYPE
+        ) VALUES (
+                     #{board_id},
+                     #{filename},
+                     #{fileoriginname},
+                     #{filepath},
+                     #{filetype}
+                 )
+    </insert>
+
+    <update id="modifyBoardFileOne" parameterType="boardFile">
+        UPDATE NOTICE_FILE
+        SET
+            FILENAME = #{filename},
+            FILEORIGINNAME = #{fileoriginname},
+            FILEPATH = #{filepath},
+            FILETYPE = #{filetype}
+        WHERE ID = #{id}
+          AND BOARD_ID = #{board_id}
+    </update>
+
+    <delete id="deleteBoardFileOne" parameterType="boardFile">
+        DELETE FROM NOTICE_FILE
+        WHERE ID = #{id}
+          AND BOARD_ID = #{board_id}
+    </delete>
+
+
+
+
 
 
 
