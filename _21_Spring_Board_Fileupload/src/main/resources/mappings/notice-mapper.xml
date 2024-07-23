@@ -51,6 +51,7 @@
                 OR M.NICKNAME LIKE CONCAT('%', #{search.searchKeyword}, '%')
             )
         </if>
+        ORDER BY N.ID DESC
         LIMIT #{cri.amount} OFFSET #{cri.startNum}
     </select>
 
@@ -95,24 +96,26 @@
                 )
             </if>
     </select>
+
     <insert id="uploadFiles" parameterType="list">
         INSERT INTO NOTICE_FILE (
-        BOARD_ID,
-        FILENAME,
-        FILEORIGINNAME,
-        FILEPATH,
-        FILETYPE
+            BOARD_ID,
+            FILENAME,
+            FILEORIGINNAME,
+            FILEPATH,
+            FILETYPE
         ) VALUES
         <foreach collection="list" item="item" separator=",">
-            (
-            #{item.board_id},
-            #{item.filename},
-            #{item.fileoriginname},
-            #{item.filepath},
-            #{item.filetype}
-            )
+        (
+              #{item.board_id},
+              #{item.filename},
+              #{item.fileoriginname},
+              #{item.filepath},
+              #{item.filetype}
+        )
         </foreach>
     </insert>
+
     <select id="getNoticeFileList" parameterType="int" resultType="boardFile">
         SELECT ID
              , BOARD_ID
@@ -120,16 +123,14 @@
              , FILEORIGINNAME
              , FILEPATH
              , FILETYPE
-        FROM NOTICE_FILE
-        WHERE BOARD_ID = #{id}
+            FROM NOTICE_FILE
+            WHERE BOARD_ID = #{id}
     </select>
+
     <delete id="deleteFiles" parameterType="int">
         DELETE FROM NOTICE_FILE
-        WHERE BOARD_ID = #{id}
+            WHERE BOARD_ID = #{id}
     </delete>
-
-
-
 
 
 

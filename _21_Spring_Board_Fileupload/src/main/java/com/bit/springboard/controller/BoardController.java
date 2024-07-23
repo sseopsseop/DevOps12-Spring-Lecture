@@ -84,7 +84,7 @@ public class BoardController {
             List<BoardFileDto> boardFileDtoList = boardService.getBoardFileList(boardDto.getId());
 
             Map<String, Object> map = new HashMap<>();
-            map.put("boardDto", boardDto);
+            map.put("boardDto", boardDto);      
 
             if (boardFileDtoList.size() > 0)
                 map.put("file", boardFileDtoList.get(0));
@@ -140,13 +140,14 @@ public class BoardController {
     }
 
     @PostMapping("/modify.do")
-    public String modify(BoardDto boardDto) {
+    public String modify(BoardDto boardDto, MultipartFile[] uploadFiles, MultipartFile[] changeFiles,
+                         @RequestParam(name = "originFiles", required = false) String originFiles) {
         if(boardDto.getType().equals("free")) {
             boardService = applicationContext.getBean("freeBoardServiceImpl", BoardService.class);
         } else {
             boardService = applicationContext.getBean("noticeServiceImpl", BoardService.class);
         }
-        boardService.modify(boardDto);
+        boardService.modify(boardDto, uploadFiles, changeFiles, originFiles);
 
         if(boardDto.getType().equals("free"))
             return "redirect:/board/free-detail.do?id=" + boardDto.getId();

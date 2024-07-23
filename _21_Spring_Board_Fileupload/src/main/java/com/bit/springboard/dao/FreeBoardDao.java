@@ -57,8 +57,8 @@ public class FreeBoardDao {
         mybatis.insert(/*쿼리문의 호출은 Mapper.xml 파일의 namespace값.쿼리문의 id*/"FreeBoardDao.post", boardDto);
 
         System.out.println("insert 실행 후 id값: " + boardDto.getId());
-        if(!boardFileDtoList.isEmpty()){
 
+        if(boardFileDtoList.size() > 0) {
             boardFileDtoList.forEach(boardFileDto -> boardFileDto.setBoard_id(boardDto.getId()));
 
             mybatis.insert("FreeBoardDao.uploadFiles", boardFileDtoList);
@@ -67,10 +67,22 @@ public class FreeBoardDao {
         System.out.println("FreeBoardDao의 post 메소드 실행 종료");
     }
 
-    public void modify(BoardDto boardDto) {
+    public void modify(BoardDto boardDto, List<BoardFileDto> uFileList) {
         System.out.println("FreeBoardDao의 modify 메소드 실행");
 
         mybatis.update("FreeBoardDao.modify", boardDto);
+
+        if(uFileList.size() > 0) {
+            uFileList.forEach(boardFileDto -> {
+                if(boardFileDto.getFilestatus().equals("I")) {
+                    mybatis.insert("FreeBoardDao.postBoardFileOne", boardFileDto);
+                } else if(boardFileDto.getFilestatus().equals("U")) {
+                    mybatis.update("FreeBoardDao.modifyBoardFileOne", boardFileDto);
+                } else if(boardFileDto.getFilestatus().equals("D")) {
+                    mybatis.delete("FreeBoardDao.deleteBoardFileOne", boardFileDto);
+                }
+            });
+        }
 
         System.out.println("FreeBoardDao의 modify 메소드 실행 종료");
     }
@@ -91,6 +103,7 @@ public class FreeBoardDao {
         System.out.println("FreeBoardDao의 delete 메소드 실행");
 
         mybatis.delete("FreeBoardDao.deleteFiles", id);
+
         mybatis.delete("FreeBoardDao.delete", id);
 
         System.out.println("FreeBoardDao의 delete 메소드 실행 종료");

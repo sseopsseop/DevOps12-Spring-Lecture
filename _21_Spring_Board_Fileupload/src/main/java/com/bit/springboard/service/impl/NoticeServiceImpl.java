@@ -27,30 +27,30 @@ public class NoticeServiceImpl implements BoardService {
     public void post(BoardDto boardDto, MultipartFile[] uploadFiles) {
         List<BoardFileDto> boardFileDtoList = new ArrayList<>();
 
-        if (uploadFiles != null && uploadFiles.length > 0) {
+        if(uploadFiles != null && uploadFiles.length > 0) {
             String attachPath = "C:/tmp/upload/";
 
             File directory = new File(attachPath);
+
             if (!directory.exists()) {
                 directory.mkdirs();
             }
 
-            Arrays.stream(uploadFiles).forEach(uploadFile -> {
-                        if (uploadFile.getOriginalFilename() != null &&
-                                !uploadFile.getOriginalFilename().equals("")) {
-                            BoardFileDto boardFileDto = FileUtils.parserFileInfo(uploadFile, attachPath);
-                            boardFileDtoList.add(boardFileDto);
-                        }
-                    }
-            );
+            Arrays.stream(uploadFiles).forEach(file -> {
+                if(file.getOriginalFilename() != null && !file.getOriginalFilename().equals("")) {
+                    BoardFileDto boardFileDto = FileUtils.parserFileInfo(file, attachPath);
 
-            noticeDao.post(boardDto, boardFileDtoList);
-
+                    boardFileDtoList.add(boardFileDto);
+                }
+            });
         }
+
+
+        noticeDao.post(boardDto, boardFileDtoList);
     }
 
     @Override
-    public void modify(BoardDto boardDto) {
+    public void modify(BoardDto boardDto, MultipartFile[] uploadFiles, MultipartFile[] changeFiles, String originFiles) {
         boardDto.setModdate(LocalDateTime.now());
         noticeDao.modify(boardDto);
     }
